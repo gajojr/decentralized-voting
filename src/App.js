@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { lazy, Suspense } from 'react';
+import {
+	BrowserRouter as Router,
+	Routes,
+	Route
+} from 'react-router-dom';
+import LoadingSpinner from './components/LoadingSpinner/LoadingSpinner.component';
+
+const HomePage = lazy(() => import('./pages/HomePage/HomePage.page'));
+const CreateIdentity = lazy(() => import('./pages/CreateIdentity/CreateIdentity.page'));
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	return (
+		<Router>
+			<Routes>
+				<Route path="/" element={
+					<Suspense fallback={LoadingSpinner()}>
+						<HomePage />
+					</Suspense>
+				} />
+				<Route path="/create-identity" element={
+					<Suspense fallback={LoadingSpinner()}>
+						<CreateIdentity />
+					</Suspense>
+				} />
+			</Routes>
+		</Router>
+	);
 }
 
 export default App;
