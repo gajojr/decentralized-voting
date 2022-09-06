@@ -6,16 +6,22 @@ export const HeaderWrapper = styled.header `
 `;
 
 export const Navigation = styled.nav `
-	width: 80%;
+	width: 100%;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
+	padding: 20px 50px;
 `;
 
 export const LogoLink = styled(Link)
 `
 	display: flex;
 	flex-direction: row;
+	text-decoration: none;
+	align-items: center;
+	color: #fff;
+	font-family: 'Urbanist', sans-serif;
+	font-weight: 500;
 `;
 
 export const Routes = styled.div `
@@ -27,6 +33,12 @@ export const RouteLink = styled(Link)
 `
 	display: flex;
 	flex-direction: column;
+	margin-right: 20px;
+	text-decoration: none;
+	color: #fff;
+	font-family: 'Urbanist', sans-serif;
+	font-weight: 500;
+	align-items: center;
 `;
 
 export const LogoImg = styled.img `
@@ -40,5 +52,4 @@ export const RouteImg = styled.img `
 `;
 
 export const LinkText = styled.span `
-	
 `;

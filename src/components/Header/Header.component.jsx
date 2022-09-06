@@ -16,7 +16,7 @@ const Header = () => {
 			<Navigation>
 				<LogoLink to="/">
 					<LogoImg src="/images/chart.svg" alt="home link" />
-					<LinkText>Delect</LinkText>
+					<LinkText style={{ marginLeft: 10 }}>Delect</LinkText>
 				</LogoLink>
 				<Routes>
 					<RouteLink to="/" >
