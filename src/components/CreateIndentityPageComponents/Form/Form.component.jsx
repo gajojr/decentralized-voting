@@ -15,15 +15,19 @@ import {
 } from './Form.style';
 
 const Form = () => {
+	const createIdentity = async (e) => {
+		e.preventDefault();
+	}
+
 	return (
 		<SectionWrapper>
-			<MintForm>
+			<MintForm onSubmit={createIdentity}>
 				<FormCaption>Mint Your ID</FormCaption>
-				<NameInput />
-				<LastnameInput />
-				<CountryInput />
-				<CityInput />
-				<IDInput />
+				<NameInput minLength="2" maxLength="20" />
+				<LastnameInput minLength="2" maxLength="20" />
+				<CountryInput minLength="2" maxLength="30" />
+				<CityInput minLength="2" maxLength="30" />
+				<IDInput minLength="4" maxLength="15" />
 				<MintBtn>MINT</MintBtn>
 			</MintForm>
 			<WalletSection>
