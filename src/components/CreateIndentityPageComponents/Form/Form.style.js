@@ -63,7 +63,8 @@ const textInputStyle = css `
 export const NameInput = styled.input.attrs({
     type: 'text',
     required: true,
-    placeholder: 'First name'
+    placeholder: 'First name',
+    name: 'name'
 })
 `
 	${textInputStyle};
@@ -72,7 +73,8 @@ export const NameInput = styled.input.attrs({
 export const LastnameInput = styled.input.attrs({
     type: 'text',
     required: true,
-    placeholder: 'Last name'
+    placeholder: 'Last name',
+    name: 'lastname'
 })
 `
 	${textInputStyle};
@@ -81,7 +83,8 @@ export const LastnameInput = styled.input.attrs({
 export const CountryInput = styled.input.attrs({
     type: 'text',
     required: true,
-    placeholder: 'Country'
+    placeholder: 'Country',
+    name: 'country'
 })
 `
 	${textInputStyle};
@@ -90,7 +93,8 @@ export const CountryInput = styled.input.attrs({
 export const CityInput = styled.input.attrs({
     type: 'text',
     required: true,
-    placeholder: 'City'
+    placeholder: 'City',
+    name: 'city'
 })
 `
 	${textInputStyle};
@@ -99,10 +103,25 @@ export const CityInput = styled.input.attrs({
 export const IDInput = styled.input.attrs({
     type: 'text',
     required: true,
-    placeholder: 'ID Number'
+    placeholder: 'ID Number',
+    name: 'idNumber'
 })
 `
 	${textInputStyle};
+`;
+
+export const BirthDateInput = styled.input.attrs({
+    type: 'date',
+    required: true,
+    name: 'dateOfBirth'
+})
+`
+	margin-bottom: 20px;
+	background: rgba(2, 255, 168, 0.09);
+	border: 2px solid #00FFA7;
+	color: #fff;
+	padding: 10px 30px;
+	font-size: 1.1rem;
 `;
 
 export const MintBtn = styled.button `
