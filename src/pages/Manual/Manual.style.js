@@ -22,6 +22,9 @@ export const ProjectInfo = styled.p `
 	color: #fff;
 	width: 800px;
 	margin-top: 200px;
+	border: 2px solid #00FFA7;
+	border-radius: 20px;
+	padding: 15px 25px;
 
 	@media(max-width: 1000px) {
 		width: 600px;
