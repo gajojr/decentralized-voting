@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useState } from 'react';
 import {
 	SectionWrapper,
 	Btn,
@@ -6,7 +6,8 @@ import {
 	Alert,
 	AlertCaption,
 	AlertText,
-	AlertBtn
+	AlertBtn,
+	Spinner
 } from './ConnectWalletBtn.style';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
@@ -19,8 +20,11 @@ const ReactAlert = withReactContent(Swal);
 
 const ConnectWalletBtn = () => {
 	const dispatch = useDispatch();
+	const [connectingWallet, setConnectingWallet] = useState(false);
 
 	const connectWallet = async () => {
+		setConnectingWallet(true);
+
 		if (!window.ethereum) {
 			ReactAlert.fire({
 				html: <Alert>
@@ -31,6 +35,7 @@ const ConnectWalletBtn = () => {
 				showConfirmButton: false,
 				background: '#152D25'
 			});
+			setConnectingWallet(false);
 
 			return;
 		}
@@ -54,12 +59,17 @@ const ConnectWalletBtn = () => {
 				background: '#152D25'
 			});
 		}
+
+		setConnectingWallet(false);
 	}
 
 	return (
 		<SectionWrapper>
 			<Info>You must confirm that you are the admin by connecting the wallet.</Info>
 			<Btn onClick={connectWallet}>Connect wallet</Btn>
+			{
+				connectingWallet && <Spinner />
+			}
 		</SectionWrapper>
 	);
 }

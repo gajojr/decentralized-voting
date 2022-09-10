@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
 	SectionWrapper,
 	List,
@@ -14,6 +14,7 @@ import {
 	VoteBtn,
 	NumberOfVotes
 } from './CandidatesList.style';
+import Voting from '../../../web3/contracts-js/Voting';
 
 const mockData = [
 	{
@@ -27,6 +28,16 @@ const mockData = [
 ];
 
 const CandidatesList = () => {
+	useEffect(() => {
+		(async () => {
+			const events = await Voting.getPastEvents('candidateCreated', {
+				fromBlock: 0,
+				toBlock: 'latest'
+			});
+			console.log(events);
+		})();
+	}, []);
+
 	return (
 		<SectionWrapper>
 			<List>
