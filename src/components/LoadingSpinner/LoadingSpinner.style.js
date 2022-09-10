@@ -10,7 +10,7 @@ export const SpinnerWrapper = styled.div `
 
 export const Spinner = styled.div `
   	border: 16px solid #f3f3f3; 
-  	border-top: 16px solid #3498db; 
+  	border-top: 16px solid #078559; 
   	border-radius: 50%;
   	width: 120px;
   	height: 120px;

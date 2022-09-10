@@ -8,6 +8,8 @@ import LoadingSpinner from './components/LoadingSpinner/LoadingSpinner.component
 
 const HomePage = lazy(() => import('./pages/HomePage/HomePage.page'));
 const CreateIdentity = lazy(() => import('./pages/CreateIdentity/CreateIdentity.page'));
+const Manual = lazy(() => import('./pages/Manual/Manual.page'));
+const AdminPage = lazy(() => import('./pages/Admin/Admin.page'));
 
 function App() {
 	return (
@@ -21,6 +23,16 @@ function App() {
 				<Route path="/create-identity" element={
 					<Suspense fallback={LoadingSpinner()}>
 						<CreateIdentity />
+					</Suspense>
+				} />
+				<Route path="/manual" element={
+					<Suspense fallback={LoadingSpinner()}>
+						<Manual />
+					</Suspense>
+				} />
+				<Route path="/admin" element={
+					<Suspense fallback={LoadingSpinner()}>
+						<AdminPage />
 					</Suspense>
 				} />
 			</Routes>
