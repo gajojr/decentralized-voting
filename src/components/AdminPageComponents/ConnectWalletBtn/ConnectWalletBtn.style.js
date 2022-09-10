@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const SectionWrapper = styled.section `
 	display: flex;
@@ -17,7 +17,7 @@ export const Info = styled.p `
 	color: #fff;
 `;
 
-export const Btn = styled.button `
+const buttonStyle = css `
 	background: #00FFA7;
 	box-shadow: 0px 0px 15px rgba(2, 255, 168, 0.4);
 	border-radius: 3px;
@@ -32,4 +32,26 @@ export const Btn = styled.button `
 	&:hover {
 		cursor: pointer;
 	}
+`;
+
+export const Btn = styled.button `
+	${buttonStyle};
+`;
+
+export const Alert = styled.div `
+	background-color: #152D25;
+	border-radius: 4px;
+	color: #fff;
+`;
+
+export const AlertCaption = styled.h2 `
+
+`;
+
+export const AlertText = styled.p `
+	
+`;
+
+export const AlertBtn = styled.button `
+	${buttonStyle};
 `;

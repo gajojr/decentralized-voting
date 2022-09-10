@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import {
 	SectionWrapper,
 	MintForm,
@@ -16,6 +17,8 @@ import {
 } from './Form.style';
 
 const Form = () => {
+	const authenticated = useSelector(state => state.auth.authenticated);
+
 	const createIdentity = async (e) => {
 		e.preventDefault();
 
@@ -35,10 +38,13 @@ const Form = () => {
 				<BirthDateInput />
 				<MintBtn>MINT</MintBtn>
 			</MintForm>
-			<WalletSection>
-				<Question>Already have decentralised id?</Question>
-				<ConnectWalletBtn>Connect wallet</ConnectWalletBtn>
-			</WalletSection>
+			{
+				!authenticated &&
+				<WalletSection>
+					<Question>Already have decentralised id?</Question>
+					<ConnectWalletBtn>Connect wallet</ConnectWalletBtn>
+				</WalletSection>
+			}
 		</SectionWrapper>
 	);
 }

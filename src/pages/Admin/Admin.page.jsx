@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
 	PageWrapper,
 	Main
@@ -6,16 +6,17 @@ import {
 import Header from '../../components/Header/Header.component';
 import ConnectWalletBtn from '../../components/AdminPageComponents/ConnectWalletBtn/ConnectWalletBtn.component';
 import Form from '../../components/AdminPageComponents/Form/Form.comonent';
+import { useSelector } from 'react-redux';
 
 const Owner = () => {
-	const [ownershipConfirmed, setOwnershipConfirmed] = useState(false);
+	const isOwner = useSelector(state => state.auth.owner);
 
 	return (
 		<PageWrapper>
 			<Header />
 			<Main>
 				{
-					ownershipConfirmed ?
+					isOwner ?
 						<Form /> :
 						<ConnectWalletBtn />
 				}
