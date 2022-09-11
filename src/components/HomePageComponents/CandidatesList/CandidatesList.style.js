@@ -38,6 +38,7 @@ export const CandidateCard = styled.li `
 	border: 4px solid #00FFA7;
 	border-radius: 10px;
 	padding: 10px;
+	margin-bottom: 30px;
 `;
 
 export const UpperCardRow = styled.div `
@@ -64,6 +65,7 @@ export const ImageAndNumber = styled.div `
 export const CandidateImg = styled.img `
 	width: 200px;
 	height: 200px;
+	border-radius: 50%;
 
 	@media(max-width: 750px) {
 		width: 170px;

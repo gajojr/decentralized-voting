@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
 	SectionWrapper,
 	List,
@@ -28,6 +28,8 @@ const mockData = [
 ];
 
 const CandidatesList = () => {
+	const [candidates, setCandidates] = useState([]);
+
 	useEffect(() => {
 		(async () => {
 			const events = await Voting.getPastEvents('candidateCreated', {
@@ -35,12 +37,43 @@ const CandidatesList = () => {
 				toBlock: 'latest'
 			});
 			console.log(events);
+			const candidates = events.map(event => ({
+				id: event.returnValues[0],
+				name: event.returnValues[1],
+				lastname: event.returnValues[2],
+				quote: event.returnValues[3],
+				votes: event.returnValues[4],
+				imgUrl: `https://hub.textile.io/ipns/bafzbeifxc26sp5nc3kqbbb7gg4j43t2gj5445en2gzp2c6sp6t37mtlxhi/${event.returnValues[5]}`
+			}));
+			setCandidates(candidates);
 		})();
 	}, []);
 
 	return (
 		<SectionWrapper>
 			<List>
+				{
+					candidates.map(candidate => {
+						return (
+							<CandidateCard key={candidate.id}>
+								<UpperCardRow>
+									<ImageAndNumber>
+										<CandidateImg src={candidate.imgUrl} alt={`${candidate.name} ${candidate.lastname}`} />
+										<CandidateNumber>Number #{candidate.id}</CandidateNumber>
+									</ImageAndNumber>
+									<NameAndQuote>
+										<CandidateName>{candidate.name} {candidate.lastname}</CandidateName>
+										<CandidateQuote>{candidate.quote}</CandidateQuote>
+									</NameAndQuote>
+								</UpperCardRow>
+								<DownRow>
+									<NumberOfVotes>Votes: {candidate.votes}</NumberOfVotes>
+									<VoteBtn>Vote</VoteBtn>
+								</DownRow>
+							</CandidateCard>
+						);
+					})
+				}
 				{mockData.map(candidate => {
 					return (
 						<CandidateCard key={candidate.id}>

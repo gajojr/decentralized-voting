@@ -1,6 +1,6 @@
 import web3 from '../web3-provider';
 
-const address = '0xc055B84CF8A374E2bE4351CaD5bBFb89411e0dF3';
+const address = '0x309B5E68bf54376B8Af8A8ED7c64295bB3fe8F79';
 
 const abi = [{
         "inputs": [{
@@ -42,6 +42,12 @@ const abi = [{
                 "internalType": "uint256",
                 "name": "voteCount",
                 "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "internalType": "string",
+                "name": "profileImgUrl",
+                "type": "string"
             }
         ],
         "name": "candidateCreated",
@@ -78,6 +84,12 @@ const abi = [{
                 "internalType": "uint256",
                 "name": "voteCount",
                 "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "internalType": "string",
+                "name": "profileImgUrl",
+                "type": "string"
             }
         ],
         "name": "electionUpdated",
@@ -97,6 +109,11 @@ const abi = [{
             {
                 "internalType": "string",
                 "name": "quote",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "profileImgUrl",
                 "type": "string"
             }
         ],
@@ -147,6 +164,11 @@ const abi = [{
                 "internalType": "uint256",
                 "name": "voteCount",
                 "type": "uint256"
+            },
+            {
+                "internalType": "string",
+                "name": "profileImgUrl",
+                "type": "string"
             }
         ],
         "stateMutability": "view",

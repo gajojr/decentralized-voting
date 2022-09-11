@@ -67,7 +67,7 @@ const Form = () => {
 	const addCandidate = async (e) => {
 		e.preventDefault();
 
-		// setCreationPending(true);
+		setCreationPending(true);
 
 		if (!file.length) {
 			ReactAlert.fire({
@@ -84,33 +84,7 @@ const Form = () => {
 			return;
 		}
 
-		// const name = e.target.name.value;
-		// const lastname = e.target.lastname.value;
-		// const quote = e.target.quote.value;
-
-		// let gasAmount;
-		// try {
-		// 	gasAmount = await Voting.methods
-		// 		.addCandidate(name, lastname, quote)
-		// 		.estimateGas({
-		// 			from: store.getState().auth.walletAddress
-		// 		});
-		// } catch (err) {
-		// 	console.log(err);
-		// ReactAlert.fire({
-		// 	html: <Alert>
-		// 		<AlertCaption>Wallet notification</AlertCaption>
-		// 		<AlertText>Failed to estimate gas for transaction, try again</AlertText>
-		// 		<AlertBtn onClick={ReactAlert.close}>OK</AlertBtn>
-		// 	</Alert>,
-		// 	showConfirmButton: false,
-		// 	background: '#152D25'
-		// });
-		// 	setCreationPending(false);
-
-		// 	return;
-		// }
-
+		let filename;
 		try {
 			const buckets = Buckets.withUserAuth(auth);
 			const { root } = await buckets.getOrCreate('candidate-images');
@@ -118,10 +92,8 @@ const Form = () => {
 			const bucketKey = root.key;
 			console.log(bucketKey);
 
-			// const res = await buckets.pushPath(bucketKey, `${uuid()}${fileInput.name}`, fileInput);
-			// console.log(res);
-			const res = await buckets.pullPath(bucketKey, ``);
-			console.log(res);
+			filename = `${uuid()}${fileInput.name}`;
+			await buckets.pushPath(bucketKey, filename, fileInput);
 		} catch (err) {
 			console.log(err);
 			ReactAlert.fire({
@@ -138,28 +110,55 @@ const Form = () => {
 			return;
 		}
 
-		// try {
-		// 	await Voting.methods
-		// 		.addCandidate(name, lastname, quote)
-		// 		.send({
-		// 			from: store.getState().auth.walletAddress,
-		// 			gasLimit: String(gasAmount + 5000)
-		// 		});
-		// } catch (err) {
-		// 	console.log(err);
-		// 	ReactAlert.fire({
-		// 		html: <Alert>
-		// 			<AlertCaption>Wallet notification</AlertCaption>
-		// 			<AlertText>Failed to create candidate, try again</AlertText>
-		// 			<AlertBtn onClick={ReactAlert.close}>OK</AlertBtn>
-		// 		</Alert>,
-		// 		showConfirmButton: false,
-		// 		background: '#152D25'
-		// 	});
-		// 	setCreationPending(false);
+		const name = e.target.name.value;
+		const lastname = e.target.lastname.value;
+		const quote = e.target.quote.value;
 
-		// 	return;
-		// }
+		let gasAmount;
+		try {
+			gasAmount = await Voting.methods
+				.addCandidate(name, lastname, quote, filename)
+				.estimateGas({
+					from: store.getState().auth.walletAddress
+				});
+		} catch (err) {
+			console.log(err);
+			ReactAlert.fire({
+				html: <Alert>
+					<AlertCaption>Wallet notification</AlertCaption>
+					<AlertText>Failed to estimate gas for transaction, try again</AlertText>
+					<AlertBtn onClick={ReactAlert.close}>OK</AlertBtn>
+				</Alert>,
+				showConfirmButton: false,
+				background: '#152D25'
+			});
+			setCreationPending(false);
+
+			return;
+		}
+
+		try {
+			await Voting.methods
+				.addCandidate(name, lastname, quote, filename)
+				.send({
+					from: store.getState().auth.walletAddress,
+					gasLimit: String(gasAmount + 5000)
+				});
+		} catch (err) {
+			console.log(err);
+			ReactAlert.fire({
+				html: <Alert>
+					<AlertCaption>Wallet notification</AlertCaption>
+					<AlertText>Failed to create candidate, try again</AlertText>
+					<AlertBtn onClick={ReactAlert.close}>OK</AlertBtn>
+				</Alert>,
+				showConfirmButton: false,
+				background: '#152D25'
+			});
+			setCreationPending(false);
+
+			return;
+		}
 
 		setCreationPending(false);
 	}
