@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import { AiOutlinePlus } from 'react-icons/ai';
 
 export const SectionWrapper = styled.section `
 	width: 100%;
@@ -151,4 +152,37 @@ export const Spinner = styled.div `
 		0% { transform: rotate(0deg); }
 		100% { transform: rotate(360deg); }
 	}
+`;
+
+export const ImgUpload = styled.div `
+	width: 150px;
+	height: 150px;
+	background-color: #000;
+	border-radius: 50%;
+	border: ${props => props.uploaded ? '5px solid #00FFA7' : '5px dashed #00FFA7'};
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 20px;
+
+	&:hover {
+		cursor: pointer;
+	}
+
+	@media(max-width: 500px) {
+		width: 130px;
+		height: 130px;
+	}
+`;
+
+export const ProfileImg = styled.img `
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+`;
+
+export const PlusIcon = styled(AiOutlinePlus)
+`
+	color: #464646;
+	font-size: 3rem;
 `;
