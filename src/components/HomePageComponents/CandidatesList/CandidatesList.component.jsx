@@ -44,17 +44,32 @@ const CandidatesList = () => {
 			if (!root) throw new Error('bucket not created');
 			const bucketKey = root.key;
 
-			const events = await Voting.getPastEvents('candidateCreated', {
+			let candidates = await Voting.getPastEvents('candidateCreated', {
 				fromBlock: 0,
 				toBlock: 'latest'
 			});
-			console.log(events);
-			const candidates = events.map(event => ({
+
+			let votes = await Voting.getPastEvents('electionUpdated', {
+				fromBlock: 0,
+				toBlock: 'latest'
+			});
+
+			const candidateIds = {};
+
+			votes.forEach(vote => {
+				if (!candidateIds[vote.returnValues[0]]) {
+					candidateIds[vote.returnValues[0]] = 1;
+				} else {
+					candidateIds[vote.returnValues[0]]++;
+				}
+			})
+
+			candidates = candidates.map(event => ({
 				id: event.returnValues[0],
 				name: event.returnValues[1],
 				lastname: event.returnValues[2],
 				quote: event.returnValues[3],
-				votes: event.returnValues[4],
+				votes: candidateIds[event.returnValues[0]] || 0,
 				imgUrl: `https://hub.textile.io/ipns/${bucketKey}/${event.returnValues[5]}`
 			}));
 			setCandidates(candidates);
