@@ -1421,6 +1421,7 @@ contract SBT is ERC721Enumerable, Ownable {
         string lastName;
         string country;
         string city;
+        string dateOfBirth;
     }
 
     event identityCreated(
@@ -1428,7 +1429,8 @@ contract SBT is ERC721Enumerable, Ownable {
         string name,
         string lastName,
         string country,
-        string city
+        string city,
+        string dateOfBirth
     );
 
     mapping(address => Identity) public identities;
@@ -1452,8 +1454,9 @@ contract SBT is ERC721Enumerable, Ownable {
         string calldata name,
         string calldata lastName,
         string calldata country,
-        string calldata city
-    ) public payable {
+        string calldata city,
+        string memory dateOfBirth
+    ) public {
         uint256 supply = totalSupply();
         require(!paused);
         require(
@@ -1465,7 +1468,8 @@ contract SBT is ERC721Enumerable, Ownable {
             name,
             lastName,
             country,
-            city
+            city,
+            dateOfBirth
         );
         identities[msg.sender] = identity;
         emit identityCreated(
@@ -1473,7 +1477,8 @@ contract SBT is ERC721Enumerable, Ownable {
             name,
             lastName,
             country,
-            city
+            city,
+            dateOfBirth
         );
 
         _safeMint(msg.sender, supply + 1);

@@ -169,3 +169,50 @@ export const ConnectWalletBtn = styled.button `
 		cursor: pointer;
 	}
 `;
+
+export const Alert = styled.div `
+	background-color: #152D25;
+	border-radius: 4px;
+	color: #fff;
+`;
+
+export const AlertCaption = styled.h2 `
+
+`;
+
+export const AlertText = styled.p `
+	
+`;
+
+export const AlertBtn = styled.button `
+	background: #00FFA7;
+	box-shadow: 0px 0px 15px rgba(2, 255, 168, 0.4);
+	border-radius: 3px;
+	border: none;
+	color: #000;
+	padding: 10px 25px;
+	margin-bottom: 20px;
+	font-size: 1.3rem;
+	font-weight: 700;
+	font-family: 'Urbanist', sans-serif;
+
+	&:hover {
+		cursor: pointer;
+	}
+`;
+
+export const Spinner = styled.div `
+	border: 13px solid #f3f3f3;
+	border-top: 13px solid rgba(2, 255, 168, 0.4);
+	border-radius: 50%;
+	width: 100px;
+	height: 100px;
+	animation: spin 2s linear infinite;
+	align-self: center;
+	margin-bottom: 10px;
+
+	@keyframes spin {
+		0% { transform: rotate(0deg); }
+		100% { transform: rotate(360deg); }
+	}
+`;

@@ -71,7 +71,22 @@ const CandidatesList = () => {
 			ReactAlert.fire({
 				html: <Alert>
 					<AlertCaption>Id notification</AlertCaption>
-					<AlertText>You haven't minted your id, go to create identity page and do it first.</AlertText>
+					<AlertText>You haven't minted your id, go create identity page and do it first.</AlertText>
+					<AlertBtn onClick={ReactAlert.close}>OK</AlertBtn>
+				</Alert>,
+				showConfirmButton: false,
+				background: '#152D25'
+			});
+
+			return;
+		}
+
+		const hasVoted = await Voting.methods.voters(accounts[0]).call();
+		if (hasVoted) {
+			ReactAlert.fire({
+				html: <Alert>
+					<AlertCaption>Voting notification</AlertCaption>
+					<AlertText>You have already voted!</AlertText>
 					<AlertBtn onClick={ReactAlert.close}>OK</AlertBtn>
 				</Alert>,
 				showConfirmButton: false,
