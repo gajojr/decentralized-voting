@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 import {
 	SectionWrapper,
 	MintForm,
@@ -11,9 +10,6 @@ import {
 	IDInput,
 	BirthDateInput,
 	MintBtn,
-	WalletSection,
-	Question,
-	ConnectWalletBtn,
 	Alert,
 	AlertCaption,
 	AlertText,
@@ -28,7 +24,6 @@ import SBT from '../../../web3/contracts-js/SBT';
 const ReactAlert = withReactContent(Swal);
 
 const Form = () => {
-	const authenticated = useSelector(state => state.auth.authenticated);
 	const [creationPending, setCreationPending] = useState(false);
 
 	const createIdentity = async (e) => {
@@ -159,13 +154,6 @@ const Form = () => {
 					creationPending && <Spinner />
 				}
 			</MintForm>
-			{
-				!authenticated &&
-				<WalletSection>
-					<Question>Already have decentralised id?</Question>
-					<ConnectWalletBtn>Connect wallet</ConnectWalletBtn>
-				</WalletSection>
-			}
 		</SectionWrapper>
 	);
 }

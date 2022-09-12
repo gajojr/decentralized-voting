@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Buckets } from '@textile/hub';
 import {
 	SectionWrapper,
 	List,
@@ -16,7 +17,8 @@ import {
 	Alert,
 	AlertCaption,
 	AlertText,
-	AlertBtn
+	AlertBtn,
+	Spinner
 } from './CandidatesList.style';
 import Voting from '../../../web3/contracts-js/Voting';
 import Swal from 'sweetalert2';
@@ -26,11 +28,22 @@ import SBT from '../../../web3/contracts-js/SBT';
 
 const ReactAlert = withReactContent(Swal);
 
+const auth = {
+	key: process.env.REACT_APP_TEXTILE_HUB_KEY
+};
+const buckets = Buckets.withUserAuth(auth);
+
 const CandidatesList = () => {
 	const [candidates, setCandidates] = useState([]);
+	const [votingInProgress, setVotingInProgress] = useState(false);
+	const [currentId, setCurrentId] = useState();
 
 	useEffect(() => {
 		(async () => {
+			const { root } = await buckets.getOrCreate('candidate-images');
+			if (!root) throw new Error('bucket not created');
+			const bucketKey = root.key;
+
 			const events = await Voting.getPastEvents('candidateCreated', {
 				fromBlock: 0,
 				toBlock: 'latest'
@@ -42,7 +55,7 @@ const CandidatesList = () => {
 				lastname: event.returnValues[2],
 				quote: event.returnValues[3],
 				votes: event.returnValues[4],
-				imgUrl: `https://hub.textile.io/ipns/bafzbeifxc26sp5nc3kqbbb7gg4j43t2gj5445en2gzp2c6sp6t37mtlxhi/${event.returnValues[5]}`
+				imgUrl: `https://hub.textile.io/ipns/${bucketKey}/${event.returnValues[5]}`
 			}));
 			setCandidates(candidates);
 		})();
@@ -63,6 +76,9 @@ const CandidatesList = () => {
 			return;
 		}
 
+		setCurrentId(id);
+		setVotingInProgress(true);
+
 		await window.ethereum.request({ method: 'eth_requestAccounts' });
 		const accounts = await web3.eth.getAccounts();
 
@@ -77,6 +93,8 @@ const CandidatesList = () => {
 				showConfirmButton: false,
 				background: '#152D25'
 			});
+			setVotingInProgress(false);
+			setCurrentId('');
 
 			return;
 		}
@@ -92,9 +110,62 @@ const CandidatesList = () => {
 				showConfirmButton: false,
 				background: '#152D25'
 			});
+			setVotingInProgress(false);
+			setCurrentId('');
 
 			return;
 		}
+
+		let gasAmount;
+		try {
+			gasAmount = await Voting.methods
+				.vote(id)
+				.estimateGas({
+					from: accounts[0]
+				});
+		} catch (err) {
+			console.log(err);
+			ReactAlert.fire({
+				html: <Alert>
+					<AlertCaption>Wallet notification</AlertCaption>
+					<AlertText>Failed to estimate gas for transaction, try again</AlertText>
+					<AlertBtn onClick={ReactAlert.close}>OK</AlertBtn>
+				</Alert>,
+				showConfirmButton: false,
+				background: '#152D25'
+			});
+			setVotingInProgress(false);
+			setCurrentId('');
+
+			return;
+		}
+
+		try {
+			await Voting.methods
+				.vote(id)
+				.send({
+					from: accounts[0],
+					gasLimit: String(gasAmount + 5000)
+				});
+		} catch (err) {
+			console.log(err);
+			ReactAlert.fire({
+				html: <Alert>
+					<AlertCaption>Wallet notification</AlertCaption>
+					<AlertText>Failed to create identity, try again</AlertText>
+					<AlertBtn onClick={ReactAlert.close}>OK</AlertBtn>
+				</Alert>,
+				showConfirmButton: false,
+				background: '#152D25'
+			});
+			setVotingInProgress(false);
+			setCurrentId('');
+
+			return;
+		}
+
+		setVotingInProgress(false);
+		setCurrentId('');
 	}
 
 	return (
@@ -116,7 +187,12 @@ const CandidatesList = () => {
 								</UpperCardRow>
 								<DownRow>
 									<NumberOfVotes>Votes: {candidate.votes}</NumberOfVotes>
-									<VoteBtn onClick={() => vote(candidate.id)}>Vote</VoteBtn>
+									<VoteBtn disabled={votingInProgress} onClick={() => vote(candidate.id)}>Vote
+										{
+											(votingInProgress && currentId === candidate.id) &&
+											<Spinner />
+										}
+									</VoteBtn>
 								</DownRow>
 							</CandidateCard>
 						);

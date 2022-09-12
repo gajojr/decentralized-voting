@@ -60,7 +60,7 @@ contract Voting {
         require(!voters[msg.sender], "You have already voted");
         require(candidates[_id].id != 0, "The candidate doesn't exist");
         require(identityContract.walletOfOwner(msg.sender).length != 0, "You haven't created identitiy yet");
-        candidates[_id].voteCount++;
+        candidates[_id].voteCount += 1;
         voters[msg.sender] = true;
         emit electionUpdated(_id, candidates[_id].name, candidates[_id].lastName, candidates[_id].quote, candidates[_id].voteCount, candidates[_id].profileImgUrl);
     }

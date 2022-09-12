@@ -133,6 +133,8 @@ export const VoteBtn = styled.button `
 	font-weight: 600;
 	color: #fff;
 	padding: 10px 40px;
+	display: flex;
+	flex-direction: row;
 
 	&:hover {
 		cursor: pointer;
@@ -167,5 +169,21 @@ export const AlertBtn = styled.button `
 
 	&:hover {
 		cursor: pointer;
+	}
+`;
+
+export const Spinner = styled.div `
+	border: 5px solid #f3f3f3;
+	border-top: 5px solid rgba(2, 255, 168, 0.4);
+	border-radius: 50%;
+	width: 25px;
+	height: 25px;
+	animation: spin 2s linear infinite;
+	align-self: center;
+	margin-left: 15px;
+
+	@keyframes spin {
+		0% { transform: rotate(0deg); }
+		100% { transform: rotate(360deg); }
 	}
 `;

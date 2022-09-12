@@ -141,35 +141,6 @@ export const MintBtn = styled.button `
 	}
 `;
 
-export const WalletSection = styled.section `
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	font-family: 'Urbanist', sans-serif;
-	color: #fff;
-	margin-top: 30px;
-`;
-
-export const Question = styled.p `
-	font-size: 1.2rem;
-`;
-
-export const ConnectWalletBtn = styled.button `
-	background: #FFFFFF;
-	box-shadow: 0px 1.47638px 5.90551px rgba(2, 255, 168, 0.09);
-	border-radius: 5px;
-	font-size: 1.3rem;
-	font-weight: 600;
-	outline: none;
-	padding: 10px 30px;
-	width: fit-content;
-	margin-bottom: 50px;
-
-	&:hover {
-		cursor: pointer;
-	}
-`;
-
 export const Alert = styled.div `
 	background-color: #152D25;
 	border-radius: 4px;
