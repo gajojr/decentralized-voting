@@ -187,3 +187,18 @@ export const Spinner = styled.div `
 		100% { transform: rotate(360deg); }
 	}
 `;
+
+export const BigSpinner = styled.div `
+	border: 15px solid #f3f3f3;
+	border-top: 15px solid rgba(2, 255, 168, 0.4);
+	border-radius: 50%;
+	width: 200px;
+	height: 200px;
+	animation: spin 2s linear infinite;
+	align-self: center;
+
+	@keyframes spin {
+		0% { transform: rotate(0deg); }
+		100% { transform: rotate(360deg); }
+	}
+`;

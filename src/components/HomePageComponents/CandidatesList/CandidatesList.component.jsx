@@ -18,7 +18,8 @@ import {
 	AlertCaption,
 	AlertText,
 	AlertBtn,
-	Spinner
+	Spinner,
+	BigSpinner
 } from './CandidatesList.style';
 import Voting from '../../../web3/contracts-js/Voting';
 import Swal from 'sweetalert2';
@@ -37,8 +38,11 @@ const CandidatesList = () => {
 	const [candidates, setCandidates] = useState([]);
 	const [votingInProgress, setVotingInProgress] = useState(false);
 	const [currentId, setCurrentId] = useState();
+	const [fetchingCandidates, setFetchingCandidates] = useState(false);
 
 	const fetchCandidatesAndVotes = async () => {
+		setFetchingCandidates(true);
+
 		const { root } = await buckets.getOrCreate('candidate-images');
 		if (!root) throw new Error('bucket not created');
 		const bucketKey = root.key;
@@ -72,6 +76,7 @@ const CandidatesList = () => {
 			imgUrl: `https://hub.textile.io/ipns/${bucketKey}/${event.returnValues[5]}`
 		}));
 		setCandidates(candidates);
+		setFetchingCandidates(false);
 	}
 
 	useEffect(() => {
@@ -191,35 +196,39 @@ const CandidatesList = () => {
 
 	return (
 		<SectionWrapper>
-			<List>
-				{
-					candidates.map(candidate => {
-						return (
-							<CandidateCard key={candidate.id}>
-								<UpperCardRow>
-									<ImageAndNumber>
-										<CandidateImg src={candidate.imgUrl} alt={`${candidate.name} ${candidate.lastname}`} />
-										<CandidateNumber>Number #{candidate.id}</CandidateNumber>
-									</ImageAndNumber>
-									<NameAndQuote>
-										<CandidateName>{candidate.name} {candidate.lastname}</CandidateName>
-										<CandidateQuote>{candidate.quote}</CandidateQuote>
-									</NameAndQuote>
-								</UpperCardRow>
-								<DownRow>
-									<NumberOfVotes>Votes: {candidate.votes}</NumberOfVotes>
-									<VoteBtn disabled={votingInProgress} onClick={() => vote(candidate.id)}>Vote
-										{
-											(votingInProgress && currentId === candidate.id) &&
-											<Spinner />
-										}
-									</VoteBtn>
-								</DownRow>
-							</CandidateCard>
-						);
-					})
-				}
-			</List>
+			{
+				fetchingCandidates ?
+					<BigSpinner /> :
+					<List>
+						{
+							candidates.map(candidate => {
+								return (
+									<CandidateCard key={candidate.id}>
+										<UpperCardRow>
+											<ImageAndNumber>
+												<CandidateImg src={candidate.imgUrl} alt={`${candidate.name} ${candidate.lastname}`} />
+												<CandidateNumber>Number #{candidate.id}</CandidateNumber>
+											</ImageAndNumber>
+											<NameAndQuote>
+												<CandidateName>{candidate.name} {candidate.lastname}</CandidateName>
+												<CandidateQuote>{candidate.quote}</CandidateQuote>
+											</NameAndQuote>
+										</UpperCardRow>
+										<DownRow>
+											<NumberOfVotes>Votes: {candidate.votes}</NumberOfVotes>
+											<VoteBtn disabled={votingInProgress} onClick={() => vote(candidate.id)}>Vote
+												{
+													(votingInProgress && currentId === candidate.id) &&
+													<Spinner />
+												}
+											</VoteBtn>
+										</DownRow>
+									</CandidateCard>
+								);
+							})
+						}
+					</List>
+			}
 		</SectionWrapper>
 	);
 }
