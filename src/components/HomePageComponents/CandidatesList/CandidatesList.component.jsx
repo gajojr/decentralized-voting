@@ -38,41 +38,45 @@ const CandidatesList = () => {
 	const [votingInProgress, setVotingInProgress] = useState(false);
 	const [currentId, setCurrentId] = useState();
 
+	const fetchCandidatesAndVotes = async () => {
+		const { root } = await buckets.getOrCreate('candidate-images');
+		if (!root) throw new Error('bucket not created');
+		const bucketKey = root.key;
+
+		let candidates = await Voting.getPastEvents('candidateCreated', {
+			fromBlock: 0,
+			toBlock: 'latest'
+		});
+
+		let votes = await Voting.getPastEvents('electionUpdated', {
+			fromBlock: 0,
+			toBlock: 'latest'
+		});
+
+		const candidateIds = {};
+
+		votes.forEach(vote => {
+			if (!candidateIds[vote.returnValues[0]]) {
+				candidateIds[vote.returnValues[0]] = 1;
+			} else {
+				candidateIds[vote.returnValues[0]]++;
+			}
+		})
+
+		candidates = candidates.map(event => ({
+			id: event.returnValues[0],
+			name: event.returnValues[1],
+			lastname: event.returnValues[2],
+			quote: event.returnValues[3],
+			votes: candidateIds[event.returnValues[0]] || 0,
+			imgUrl: `https://hub.textile.io/ipns/${bucketKey}/${event.returnValues[5]}`
+		}));
+		setCandidates(candidates);
+	}
+
 	useEffect(() => {
 		(async () => {
-			const { root } = await buckets.getOrCreate('candidate-images');
-			if (!root) throw new Error('bucket not created');
-			const bucketKey = root.key;
-
-			let candidates = await Voting.getPastEvents('candidateCreated', {
-				fromBlock: 0,
-				toBlock: 'latest'
-			});
-
-			let votes = await Voting.getPastEvents('electionUpdated', {
-				fromBlock: 0,
-				toBlock: 'latest'
-			});
-
-			const candidateIds = {};
-
-			votes.forEach(vote => {
-				if (!candidateIds[vote.returnValues[0]]) {
-					candidateIds[vote.returnValues[0]] = 1;
-				} else {
-					candidateIds[vote.returnValues[0]]++;
-				}
-			})
-
-			candidates = candidates.map(event => ({
-				id: event.returnValues[0],
-				name: event.returnValues[1],
-				lastname: event.returnValues[2],
-				quote: event.returnValues[3],
-				votes: candidateIds[event.returnValues[0]] || 0,
-				imgUrl: `https://hub.textile.io/ipns/${bucketKey}/${event.returnValues[5]}`
-			}));
-			setCandidates(candidates);
+			await fetchCandidatesAndVotes();
 		})();
 	}, []);
 
@@ -178,6 +182,8 @@ const CandidatesList = () => {
 
 			return;
 		}
+
+		await fetchCandidatesAndVotes();
 
 		setVotingInProgress(false);
 		setCurrentId('');
