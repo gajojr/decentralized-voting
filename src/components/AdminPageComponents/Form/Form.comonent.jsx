@@ -84,6 +84,22 @@ const Form = () => {
 			return;
 		}
 
+		const chainId = window.ethereum.networkVersion;
+		if (chainId !== "4") {
+			ReactAlert.fire({
+				html: <Alert>
+					<AlertCaption>Wallet notification</AlertCaption>
+					<AlertText>Switch network to rinkeby and try again</AlertText>
+					<AlertBtn onClick={ReactAlert.close}>OK</AlertBtn>
+				</Alert>,
+				showConfirmButton: false,
+				background: '#152D25'
+			});
+			setCreationPending(false);
+
+			return;
+		}
+
 		let filename;
 		try {
 			const buckets = Buckets.withUserAuth(auth);

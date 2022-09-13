@@ -40,6 +40,22 @@ const ConnectWalletBtn = () => {
 			return;
 		}
 
+		const chainId = window.ethereum.networkVersion;
+		if (chainId !== "4") {
+			ReactAlert.fire({
+				html: <Alert>
+					<AlertCaption>Wallet notification</AlertCaption>
+					<AlertText>Switch network to rinkeby and try again</AlertText>
+					<AlertBtn onClick={ReactAlert.close}>OK</AlertBtn>
+				</Alert>,
+				showConfirmButton: false,
+				background: '#152D25'
+			});
+			setConnectingWallet(false);
+
+			return;
+		}
+
 		await window.ethereum.request({ method: 'eth_requestAccounts' });
 		const accounts = await web3.eth.getAccounts();
 		const owner = await Voting.methods.owner().call();
