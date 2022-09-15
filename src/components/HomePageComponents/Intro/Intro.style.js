@@ -65,4 +65,8 @@ export const LogoImg = styled.img `
 	@media(max-width: 905px) {
 		width: 310px;
 	}
+
+	@media(max-width: 625px) {
+		display: none;
+	}
 `;

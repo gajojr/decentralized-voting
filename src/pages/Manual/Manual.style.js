@@ -33,6 +33,7 @@ export const ProjectInfo = styled.p `
 	@media(max-width: 700px) {
 		width: 450px;
 		font-size: 1.2rem;
+		margin-top: 100px;
 	}
 	
 	@media(max-width: 500px) {
