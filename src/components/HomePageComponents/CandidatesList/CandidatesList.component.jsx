@@ -43,7 +43,7 @@ const CandidatesList = () => {
 	const fetchCandidatesAndVotes = async () => {
 		setFetchingCandidates(true);
 
-		const { root } = await buckets.getOrCreate('candidate-images');
+		const { root } = await buckets.getOrCreate('election-images');
 		if (!root) throw new Error('bucket not created');
 		const bucketKey = root.key;
 
