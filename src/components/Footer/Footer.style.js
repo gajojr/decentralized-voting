@@ -9,8 +9,10 @@ export const SectionWrapper = styled.footer `
 	margin-top: 100px;
 	margin-bottom: 20px;
 
-	@media(max-width: 625px) {
+	@media(max-width: 650px) {
 		margin-top: 50px;
+		flex-direction: column;
+		align-items: center;
 	}
 `;
 
@@ -22,6 +24,10 @@ export const TwitterIcon = styled(BsTwitter)
 
 export const LinkSection = styled.div `
 	margin-left: 50px;
+
+	@media(max-width: 650px) {
+		margin-left: 0;
+	}
 `;
 
 export const StyledLink = styled.a `
