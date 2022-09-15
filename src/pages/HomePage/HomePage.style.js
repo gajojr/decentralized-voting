@@ -6,7 +6,6 @@ export const PageWrapper = styled.div `
 	flex-direction: column;
 	overflow-x: hidden;
 	background: radial-gradient(66.78% 71.49% at 114.42% -16.67%, #172923 0%, rgba(88, 31, 251, 0) 100%), radial-gradient(43% 75.44% at -11.92% 113.25%, #172923 0%, rgba(63, 4, 229, 0) 86.66%), radial-gradient(62.36% 62.36% at 61.67% 37.64%, #000 0%, #000 100%); 
-	padding: 30px 40px;
 `;
 
 export const Main = styled.main `
