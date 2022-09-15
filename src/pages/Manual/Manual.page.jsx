@@ -5,6 +5,7 @@ import {
 	ProjectInfo
 } from './Manual.style';
 import Header from '../../components/Header/Header.component';
+import Footer from '../../components/Footer/Footer.component';
 
 const Manual = () => {
 	return (
@@ -18,6 +19,7 @@ const Manual = () => {
 					Admin(deployer of the contract) can add new candidates on admin page where he uploads the image of candidate to textile bucket(organized way to use ipfs or ipns) are those images are retrieved from buckets on home page.
 				</ProjectInfo>
 			</Main>
+			<Footer />
 		</PageWrapper>
 	);
 }

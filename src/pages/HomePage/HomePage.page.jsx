@@ -9,6 +9,7 @@ import {
 } from './HomePage.style';
 import Header from '../../components/Header/Header.component';
 import Intro from '../../components/HomePageComponents/Intro/Intro.component';
+import Footer from '../../components/Footer/Footer.component';
 import CandidatesList from '../../components/HomePageComponents/CandidatesList/CandidatesList.component';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
@@ -54,6 +55,7 @@ const HomePage = () => {
 				<Intro />
 				<CandidatesList />
 			</Main>
+			<Footer/>
 		</PageWrapper>
 	);
 }

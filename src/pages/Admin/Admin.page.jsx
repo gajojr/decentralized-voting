@@ -4,6 +4,7 @@ import {
 	Main
 } from './Admin.style';
 import Header from '../../components/Header/Header.component';
+import Footer from '../../components/Footer/Footer.component';
 import ConnectWalletBtn from '../../components/AdminPageComponents/ConnectWalletBtn/ConnectWalletBtn.component';
 import Form from '../../components/AdminPageComponents/Form/Form.comonent';
 import { useSelector } from 'react-redux';
@@ -21,6 +22,7 @@ const Owner = () => {
 						<ConnectWalletBtn />
 				}
 			</Main>
+			<Footer/>
 		</PageWrapper>
 	);
 }
