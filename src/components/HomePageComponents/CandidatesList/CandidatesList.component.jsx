@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Buckets } from '@textile/hub';
+// import { Buckets } from '@textile/hub';
 import {
 	SectionWrapper,
 	List,
@@ -29,10 +29,16 @@ import SBT from '../../../web3/contracts-js/SBT';
 
 const ReactAlert = withReactContent(Swal);
 
-const auth = {
-	key: process.env.REACT_APP_TEXTILE_HUB_KEY
-};
-const buckets = Buckets.withUserAuth(auth);
+// const auth = {
+// 	key: process.env.REACT_APP_TEXTILE_HUB_KEY
+// };
+// const buckets = Buckets.withUserAuth(auth);
+
+// const fallbackImgUrls = [
+// 	'f5146aaf-c305-4a93-9aec-83565998c578joe.jfif',
+// 	'4d860d20-8cf6-4883-9e6b-8d293fce2cd9barack.jfif',
+// 	'51abba1c-0cee-42fa-9495-1e30f7683ef7donald.jfif'
+// ];
 
 const CandidatesList = () => {
 	const [candidates, setCandidates] = useState([]);
@@ -43,9 +49,9 @@ const CandidatesList = () => {
 	const fetchCandidatesAndVotes = async () => {
 		setFetchingCandidates(true);
 
-		const { root } = await buckets.getOrCreate('election-images');
-		if (!root) throw new Error('bucket not created');
-		const bucketKey = root.key;
+		// const { root } = await buckets.getOrCreate('election-images');
+		// if (!root) throw new Error('bucket not created');
+		// const bucketKey = root.key;
 
 		let candidates = await Voting.getPastEvents('candidateCreated', {
 			fromBlock: 0,
@@ -73,7 +79,8 @@ const CandidatesList = () => {
 			lastname: event.returnValues[2],
 			quote: event.returnValues[3],
 			votes: candidateIds[event.returnValues[0]] || 0,
-			imgUrl: `https://hub.textile.io/ipns/${bucketKey}/${event.returnValues[5]}`
+			// imgUrl: `https://hub.textile.io/ipns/${bucketKey}/${event.returnValues[5]}`,
+			imgUrl: `/images/candidates/${event.returnValues[5]}`
 		}));
 		setCandidates(candidates);
 		setFetchingCandidates(false);
@@ -216,12 +223,15 @@ const CandidatesList = () => {
 					<BigSpinner /> :
 					<List>
 						{
-							candidates.map(candidate => {
+							candidates.map((candidate, idx) => {
 								return (
 									<CandidateCard key={candidate.id}>
 										<UpperCardRow>
 											<ImageAndNumber>
-												<CandidateImg src={candidate.imgUrl} alt={`${candidate.name} ${candidate.lastname}`} />
+												<CandidateImg
+													src={candidate.imgUrl}
+													alt={`${candidate.name} ${candidate.lastname}`}
+												/>
 												<CandidateNumber>Number #{candidate.id}</CandidateNumber>
 											</ImageAndNumber>
 											<NameAndQuote>
